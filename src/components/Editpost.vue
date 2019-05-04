@@ -63,7 +63,7 @@ export default {
       this.updatedata.token = localStorage.getItem('token'),
       //console.log(this.updatedata)
       axios.post('http://localhost:4000/apiargs/insertargsopts/', this.updatedata).then((response) => {
-                 this.dateprimite = response.data.ok,
+                 this.dateprimite = response.data,
                  alert('response: ' + this.dateprimite)
                  this.$router.push({name: 'Editpost'})
                 })

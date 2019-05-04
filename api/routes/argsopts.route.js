@@ -68,6 +68,7 @@ argsRoutes.route('/apiargs/argsopts', verifyToken).get(function(req, res) {
                       return (console.log('Nu am putut sa il updatam! + err: '+ err))
                     }
                     console.log('rsp: ', rsp)
+                    res.send('ok!')
                   })
                 }
               })
