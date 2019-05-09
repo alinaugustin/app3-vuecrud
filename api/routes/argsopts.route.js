@@ -46,40 +46,43 @@ argsRoutes.route('/apiargs/argsopts', verifyToken).get(function(req, res) {
       if(Object.keys(responses).length > 0) {
             Argsopts.findOne({email: responses.email}, function (err, respons){
               if(err) {
-                //console.log(err)
-                  Argsopts.create({
+                  //console.log('err: ',err)
+                  
+                } else {
+                //create one
+                Argsopts.create({
                   optiuni : req.body.optiuni,
                   argum : req.body.args,
                   email : responses.email
                   },
-                  function (err, respons) {
+                  function (err, respon) {
                     if (err) {
-                      console.log('err create:',err)
-                    }
-                    console.log('respons: ', respons)
-                    })
-                } else {
+                      //console.log('err create:',err)
+                   
+                    //console.log('respon: ', respon)
+                    
                   //update it
-                  Argsopts.findOneAndUpdate({email: responses.email}, 
-                    { $set: {optiuni: req.body.optiuni, argum: req.body.args} }, 
-                    {useFindAndModify: true}, function(err, rsp) {
+                  Argsopts.findOneAndUpdate({email: responses.email},
+                    { $set: {optiuni: req.body.optiuni, argum: req.body.args} },
+                    {useFindAndModify: false}, function(err, rsp) {
                     if (err) {
                       console.log('err update:',err)
                       return (console.log('Nu am putut sa il updatam! + err: '+ err))
                     }
-                    console.log('rsp: ', rsp)
+                    //console.log('rsp: ', rsp)
                     res.send('ok!')
                   })
+                  }
+
+                })
+
                 }
+            //console.log('respons: ', respons)
               })
         } else return console.log('responses: ',responses)
     })
   })
 }
 })
-
-        
-
-
 
  module.exports = argsRoutes

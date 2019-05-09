@@ -1,33 +1,47 @@
 <template>
-  <div>
+<div class="container">
+<div class="row">
+  <div class="col-md-9 col-md-offset-3">
+    <div class="well well-sm">
     
-    <div class="panel">
-      
+    
     <form>
+    <div class="form-group">
     <span>Alegerea implicita in aplicatie este: "Da"</span><br><br>
-    <label>Alegeti Da sau Nu:</label>
+    <label class="col-md-9 control-label">Alegeti Da sau Nu:</label>
+        <div class="col-md-9">
         <select v-model="selected">
             <option v-for="option in options" :key='option.text'>  {{ option.text }} </option>
         </select>
-    <br><br>
+        </div>
     
     <span>Ati ales: {{ selected }}</span>
-    <br><br><br>
+    </div>
     
-    <label>Argumentati:</label>
-    <textarea  type="textarea" rows="15" cols="80" placeholder="argumente" v-model="args"></textarea>
-    <br><br>
+    <div class="form-group">
+    <label class="col-md-9 control-label">Argumentati:</label>
+    <div class="col-md-9">
+    <textarea  type="textarea" placeholder="Treceti argumentele dumneavoastra aici..." v-model="args"></textarea>
+    </div>
+   
     <span>Argumentele date: {{ args }}</span>
     <br><br>
+    </div>
 
+    <div class="form-group">
     <br>
     <button id="button" class="btn btn-primary" v-on:click.prevent="insertOpt">Save</button>
     <br>
+    </div> 
 
     </form>
+     
+    
     </div>
-
   </div>
+</div>
+</div>
+
 </template>
 
 <script>
@@ -43,7 +57,7 @@ export default {
           { text: 'Nu', values: 'nu' }
         ],
         argumente: 'nimic',
-        args: "nimic",
+        args: "Treceti argumentele dumneavoastra aici...",
         showit: true,
         updatedata: {
           'optiuni': "Da",
@@ -62,7 +76,7 @@ export default {
       this.updatedata.args = this.args,
       this.updatedata.token = localStorage.getItem('token'),
       //console.log(this.updatedata)
-      axios.post('http://localhost:4000/apiargs/insertargsopts/', this.updatedata).then((response) => {
+      axios.post('https://api3-alindebian.herokuapp.com/apiargs/insertargsopts/', this.updatedata).then((response) => {
                  this.dateprimite = response.data,
                  alert('response: ' + this.dateprimite)
                  this.$router.push({name: 'Editpost'})
@@ -73,7 +87,7 @@ export default {
         axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
         //console.log('token_vue2:',localStorage.getItem('token'))
         //var token = localStorage.getItem('token')
-        axios.get('http://localhost:4000/apiargs/argsopts')
+        axios.get('https://api3-alindebian.herokuapp.com/apiargs/argsopts')
         .then(response => {
           if(response === null) {
             alert("Nu ati introdus nimic!")
@@ -121,7 +135,7 @@ li {
 a {
   color: #42b983;
 }
-.panel {
+.form-group {
   font-size: 16px;
   padding: 10px;
   text-align: center;
@@ -131,6 +145,16 @@ a {
   margin: auto;
   height: 50%;
   width: 50%;
+}
+
+textarea {
+  margin:0px 0px;
+  padding:5px;
+  height:150px;
+  line-height:16px;
+  width:75%;
+  display:block;
+  margin:0px auto;    
 }
 
 .notshown {

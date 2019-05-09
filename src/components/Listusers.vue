@@ -82,7 +82,7 @@ export default {
         axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
         //console.log('token_vue2:',localStorage.getItem('token'))
         //var token = localStorage.getItem('token')
-        axios.get('http://localhost:4000/api/users')
+        axios.get('https://api3-alindebian.herokuapp.com/api/users')
         .then(response => {
           this.items = response.data,
           this.maxlengt = response.data.length,
@@ -101,7 +101,7 @@ export default {
             if(username.length == '') { alert('trebuie sa introduceti date valide!') }
             else {
             this.items = []
-            axios.get('http://localhost:4000/api/edit/' + username)
+            axios.get('https://api3-alindebian.herokuapp.com/api/edit/' + username)
             .then(response => {
               this.seconds = response.data})
             .catch(error => alert('Eroare: ' + error + ' nu se afla in baza de date!'))
@@ -119,11 +119,11 @@ export default {
         deleteItem(nr)  {
               //console.log(this.items)
               this.items.splice(nr-1, 1)
-              let uri = 'http://localhost:4000/api/users/delete/' + nr
+              let uri = 'https://api3-alindebian.herokuapp.com/api/users/delete/' + nr
               axios.get(uri).then(response => {alert('Mesaj: ' + response.data.message)})
         },
         deleteItemsec(nr)  {
-              let uri = 'http://localhost:4000/api/users/delete/' + nr
+              let uri = 'https://api3-alindebian.herokuapp.com/api/users/delete/' + nr
               axios.get(uri).then(response => {
                 //id = response.data.id,
                 //console.log('id: ', response.data.id)

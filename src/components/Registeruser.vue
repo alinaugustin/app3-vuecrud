@@ -1,5 +1,8 @@
 <template>
-  <div class="hello">
+  <div class="container">
+  <div class="row">
+  <div class="col-md-9 col-md-offset-3">
+  <div class="well well-sm">
 
     <!-- <ul>
     <li><h2><router-link to="login">Login</router-link></h2></li>
@@ -11,38 +14,59 @@
 
     <p>Azi: {{ dateTime }} </p>
 
-     <form class="login" @submit.prevent="register">
+    <form class="login" @submit.prevent="register">
 
-    <label>Nr:</label>
+    <div class="form-group">
+    <label class="col-md-9 control-label">Nr:</label>
+    <div class="col-md-9">
     <input type="string" placeholder="numar user" v-model="nr" >
-    <br>
+    </div>
     <span>numar utilizator: {{ nr }}</span><br>
+    </div><br>
 
-    <label>Username:</label>
+    <div class="form-group">
+    <label class="col-md-9 control-label">Username:</label>
+    <div class="col-md-9">
     <input type="text" placeholder="utilizator" v-model="username" >
-    <br>
+    </div>
     <span>utilizator: {{ username }}</span><br>
+    </div><br>
 
-    <label>Email:</label>
+    <div class="form-group">
+    <label class="col-md-9 control-label">Email:</label>
+    <div class="col-md-9">
     <input type="email" placeholder="email" v-model="email" >
-    <br>
+    </div>
     <span>e-mail: {{ email }}</span><br>
+    </div><br>
 
-    <label>Pass:</label>
+
+    <div class="form-group">
+    <label class="col-md-9 control-label">Pass:</label>
+    <div class="col-md-9">
     <input type="password" placeholder="parola" v-model="password" >
-    <br>
+    </div>
     <span>parola: {{ password }}</span><br>
-    <label>Repeta Pass:</label>
-    <input type="password" placeholder="repeta parola" v-model="passwordconf" >
-    <br>
-    <span>parola: {{ passwordconf }}</span><br>
+    </div><br>
 
+    <div class="form-group">
+    <label class="col-md-9 control-label">Repeta Pass:</label>
+    <div class="col-md-9">
+    <input type="password" placeholder="repeta parola" v-model="passwordconf" >
+    </div>
+    <span>parola: {{ passwordconf }}</span><br>
+    </div><br>
+
+    <div class="form-group">
     <button id="button" class="btn btn-primary" >Register</button>
-    <br>
+    </div>
 
     </form>
 
-    </div>
+</div>
+</div>
+</div>
+</div>
 </template>
 
 <script>
@@ -118,5 +142,16 @@ li {
 }
 a {
   color: #42b983;
+}
+.form-group {
+  font-size: 16px;
+  padding: 10px;
+  text-align: center;
+  background-color: rgb(134, 152, 204);
+  color: rgb(0, 2, 8);
+  border: solid 1px #a6d8a8;
+  margin: auto;
+  height: 50%;
+  width: 50%;
 }
 </style>
