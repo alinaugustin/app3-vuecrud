@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 // Define collection and schema for Items
-var User = new Schema({
+var UserModel = new Schema({
   nr: {
     type: Number
   },
@@ -17,8 +17,9 @@ var User = new Schema({
     required: true
   },
   password: {
-    type: String
+    type: String,
+    required: true
   }
 })
 
-module.exports = mongoose.model('User', User)
+module.exports = mongoose.model('User', UserModel)

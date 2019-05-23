@@ -1,5 +1,6 @@
+/* eslint-disable no-console */
 const express = require('express')
-const app = express()
+//const app = express()
 const userRoutes = express.Router()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -12,7 +13,7 @@ userRoutes.route('/login').post(function(req, res) {
   //console.log('password1:',req.body.password)
   User.findOne({email: req.body.email}, function (err, data) {
     if (err) {
-      console.log('err2_new:',err)
+      //console.log('err2_new:',err)
       return res.status(500).send('Error on the server.')
     }
     if (!data) { return res.status(404).send('No user found.')
@@ -27,9 +28,10 @@ userRoutes.route('/login').post(function(req, res) {
     var token = jwt.sign({ id: data._id }, configbcr.secret, {
       expiresIn: 86400 // expires in 24 hours
     })
+    
     // return the information including token as JSON
-    //console.log('data:',data)
-    res.status(200).send({ auth: true, token: token, user: data.id })
+    //console.log('dataLogin:',data)
+    res.status(200).send({ auth: true, token: token, user: data })
   })
 })
 
@@ -51,7 +53,7 @@ userRoutes.route('/register', verifyToken).post(function(req, res) {
     },
     function (err, user) {
       if (err) {
-        console.log('err4:',err)
+        //console.log('err4:',err)
         return res.status(500).send("There was a problem registering the user`.")
       }
       // if user is registered without errors
@@ -75,8 +77,6 @@ userRoutes.route('/register', verifyToken).post(function(req, res) {
 
   // })
 
-
-
   userRoutes.route('/api/users', verifyToken).get(function(req, res) {
     //var Authorization = req.headers.authorization
     //console.log(Authorization)
@@ -84,22 +84,22 @@ userRoutes.route('/register', verifyToken).post(function(req, res) {
     if(verifyToken) {
       User.find(function (err, users){
         if(err){
-          console.log(err)
+          //console.log(err)
         }
         else {
           res.json(users)
         }
       })
     } else {
-      console.error('Authorization required!')
+      //console.error('Authorization required!')
     } 
   })
-  
+
   userRoutes.route('/api/users/:nr', verifyToken).get(function (req, res) {
     //console.log('nr=req.params.nr:', req.params.nr)
     User.find({nr: req.params.nr}, function (err, users){
       if(err){
-        console.log(err)
+        //console.log(err)
         // alert("There was a problem finding the user.")
       }
       else {
@@ -114,7 +114,7 @@ userRoutes.route('/register', verifyToken).post(function(req, res) {
     //console.log('id = req.params.id: ', asa)
     User.find( {"username" : {$regex : asa}}, function (err, users){
       if(err){
-        console.log(err)
+        //console.log(err)
         // alert("There was a problem finding the user.")
       }
       else {
@@ -128,7 +128,7 @@ userRoutes.route('/register', verifyToken).post(function(req, res) {
     //console.log('nr=req.params.nr:', req.params.nr)
     User.deleteOne({nr: req.params.nr}, function (err, users){
       if(err){
-        console.log(err)
+        //console.log(err)
         return res.status(500).send(err)
         // alert("There was a problem finding the user.")
       }
@@ -145,16 +145,16 @@ userRoutes.route('/register', verifyToken).post(function(req, res) {
   })
 
   userRoutes.route('/api/users/update/:nr', verifyToken).post(function (req, res) {
-    console.log('req.params.nr: ',req.params.nr)
-    console.log(req.body.username)
-    console.log(req.body.email)
-    console.log(req.body.nr)
+    //console.log('req.params.nr: ',req.params.nr)
+    //console.log(req.body.username)
+    //console.log(req.body.email)
+    //console.log(req.body.nr)
     User.findOneAndUpdate({nr: req.params.nr}, 
       { $set: {nr: req.body.nr, username: req.body.username, email: req.body.email} }, 
       {useFindAndModify: false}, function(err, item) {
       if (!item || err) {
-        console.log(item)
-        return (console.log('Could not load Document! + err: '+ err))
+        //console.log(item)
+        return (err => 'Could not load Document! + err: '+ err)
       }
       else {
         res.json(item)
@@ -163,6 +163,25 @@ userRoutes.route('/register', verifyToken).post(function(req, res) {
     })
   })
 
-  
+  userRoutes.route('/api/users/me', verifyToken).get(function (req, res) {
+    //console.log('test')
+    //console.log('nr=req.params.nr:', req.params.nr)
+    // let tokenver = req.user
+    // console.log('tokenver: ',tokenver)
+    //let idd = "5cba56b8e588997008971a28"
+    let user = req.header.authorization
+    let nameme = user.username 
+    console.log('nameme: ', nameme)
+      //next(res.status(200).send({ auth: true, userId: req.userId}))
+    User.find({username:nameme}, function (err, response){
+      if(err){
+        console.err(err)
+        // alert("There was a problem finding the user.")
+      }
+      console.log(response)
+      res.status(200).send({response: response })
+    })
+  })
+
 
  module.exports = userRoutes

@@ -17,6 +17,9 @@
       computed: {
         isLoggedIn: function() {
           return this.$store.getters.isLoggedIn;
+        },
+        user: function() {
+          return this.$store.getters.user;
         }
       },
       methods: {

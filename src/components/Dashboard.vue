@@ -1,26 +1,53 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    
+    <input type='button' @click='getData()' value='Arata datele'>
+    <div >
+    <p>Nr: {{ JSON.parse(this.$store.state.user).nr }} </p>
+    <p>Utilizator: {{ JSON.parse(this.$store.state.user).username }} </p>
+    <p>Email: {{ JSON.parse(this.$store.state.user).email }} </p>
+    </div>
 
-    <!-- <ul>
-    <li><h2><router-link to="login">Login</router-link></h2></li>
-    <li><h2><router-link to="editpost">Edit post</router-link></h2></li>
-    <li><h2><router-link to="listusers">List users</router-link></h2></li>
-    <li><h2><router-link to="registeruser">Register users</router-link></h2></li>
-    </ul> -->
+      <ul class="nav nav-pills">
+      <li><h2><router-link to="dashboard">Dash</router-link></h2></li>
+
+      <li><h2><router-link to="posts">Posts</router-link></h2></li>
+
+      <li><h2><router-link to="savepostpdf">ToPdf</router-link></h2></li>
+
+      <li><h2><router-link to="editpost">Edit post</router-link></h2></li>
+
+      <li><h2><router-link to="listusers">List users</router-link></h2></li>
+      <li><h2><router-link to="registeruser">Register users</router-link></h2></li>
+      </ul>
 
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'Home',
-  data () {
+  data: function () {
     return {
-      msg: 'Pagina de pornire',
-      href: '/'
+      msg: 'Panoul de control',
+      userData: [],
+      error: '',
+      loading: false
+    }
+  },
+  methods: {
+    getData: function () {
+      console.log('3: ',this.userData)
+      this.userData = this.$store.state.user
+      return this.userData
     }
   }
+    // created: function () {
+    //   console.log('3: ',this.userData)
+    //   //console.log('4: ',this.userData))
+    //  return JSON.parse(this.userData)
+    // }
 }
 </script>
 

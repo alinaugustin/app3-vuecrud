@@ -3,11 +3,15 @@ import Router from 'vue-router'
 import store from './store.js'
 import Home from './views/Home.vue'
 import Login from '@/components/Login'
+import Login2 from '@/components/Login2'
 import Editpost from '@/components/Editpost'
 import Listusers from '@/components/Listusers'
 import Registeruser from '@/components/Registeruser'
 import Dashboard from '@/components/Dashboard'
 import Editusers from '@/components/Editusers'
+import Posts from '@/components/Posts'
+
+import Savepostpdf from '@/components/Savepostpdf'
 
 Vue.use(Router)
 
@@ -31,6 +35,11 @@ let router = new Router({
       path: '/login',
       name: 'Login',
       component: Login,
+    },
+    {
+      path: '/login2',
+      name: 'Login2',
+      component: Login2,
     },
     {
       path: '/editpost',
@@ -68,6 +77,22 @@ let router = new Router({
         path: '/editusers',
         name: 'Editusers',
         component: Editusers,
+        meta: {
+          requiresAuth: true
+        }
+      },
+        {
+          path: '/savepostpdf',
+          name: 'Savepostpdf',
+          component: Savepostpdf,
+          meta: {
+            requiresAuth: true
+          }
+      },
+      {
+        path: '/posts',
+        name: 'Posts',
+        component: Posts,
         meta: {
           requiresAuth: true
         }
