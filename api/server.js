@@ -44,9 +44,12 @@ app.post('/register', verifyToken, userRoutes)
 //app.use(cors({allowedHeaders: 'Authorization', origin: 'http://localhost:8080'}));
 
 app.use('/api', verifyToken, userRoutes)
+//app.use('/api/me/:id', verifyToken, userRoutes)
 //users
 app.get('/api/users', verifyToken, userRoutes)
-app.post('/api/users/me', verifyToken, userRoutes)
+//app.get('/api/users/username',  userRoutes)
+app.get('/api/user/:id', verifyToken, userRoutes)
+app.post('/api/user/:id', verifyToken,  userRoutes)
 app.get('/api/users/:nr', verifyToken, userRoutes)
 app.get('/api/users/delete/:nr', verifyToken, userRoutes)
 //editusers and update

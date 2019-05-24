@@ -163,25 +163,18 @@ userRoutes.route('/register', verifyToken).post(function(req, res) {
     })
   })
 
-  userRoutes.route('/api/users/me', verifyToken).get(function (req, res) {
-    //console.log('test')
-    //console.log('nr=req.params.nr:', req.params.nr)
-    // let tokenver = req.user
-    // console.log('tokenver: ',tokenver)
-    //let idd = "5cba56b8e588997008971a28"
-    let user = req.header.authorization
-    let nameme = user.username 
-    console.log('nameme: ', nameme)
-      //next(res.status(200).send({ auth: true, userId: req.userId}))
-    User.find({username:nameme}, function (err, response){
-      if(err){
-        console.err(err)
-        // alert("There was a problem finding the user.")
+  userRoutes.route('/api/user/:id').get(function (req, res) {
+    console.log('req.params.id:', req.params.id)
+    let id = req.params.id
+    console.log('req.params.id:', req.params.id)
+    User.findById({_id: id}, function (error, response) {
+      if(error){
+        console.log(error)
+        return res.status(500).send(error)
+        //alert("There was a problem finding the user.")
       }
-      console.log(response)
-      res.status(200).send({response: response })
+    return res.status(200).send(response)
     })
   })
-
 
  module.exports = userRoutes

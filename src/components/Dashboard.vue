@@ -1,12 +1,25 @@
 <template>
   <div class="hello">
-    
+
+    <!-- <div>
+      <p> State: {{ JSON.parse(this.$store.state.user).username }}  </p>
+    </div> -->
+
+
     <input type='button' @click='getData()' value='Arata datele'>
-    <div >
-    <p>Nr: {{ JSON.parse(this.$store.state.user).nr }} </p>
-    <p>Utilizator: {{ JSON.parse(this.$store.state.user).username }} </p>
-    <p>Email: {{ JSON.parse(this.$store.state.user).email }} </p>
+    <div>
+    <p>Nr: {{ userData.nr }} </p>
+    <p>Utilizator: {{ userData.username }} </p>
+    <p>Email: {{ userData.email }} </p>
     </div>
+    
+    <!-- <div>
+    <p>Nr: {{ user.nr }} </p>
+    <p>Utilizator: {{ user.username }} </p>
+    <p>Email: {{ user.email }} </p>
+    </div> -->
+
+
 
       <ul class="nav nav-pills">
       <li><h2><router-link to="dashboard">Dash</router-link></h2></li>
@@ -25,7 +38,7 @@
 </template>
 
 <script>
-
+import axios from 'axios'
 export default {
   name: 'Home',
   data: function () {
@@ -33,21 +46,33 @@ export default {
       msg: 'Panoul de control',
       userData: [],
       error: '',
-      loading: false
+      loading: false,
+      user: [],
+      username: null,
+      id: 0
     }
+  },
+  created () {
+    this.getData()
   },
   methods: {
     getData: function () {
-      console.log('3: ',this.userData)
-      this.userData = this.$store.state.user
-      return this.userData
+      axios.defaults.headers.common['Authorization'] = localStorage.getItem('token'),
+      this.user = localStorage.getItem('user'),
+      //console.log('this.user: ',this.user)
+      this._id = JSON.parse(this.user)._id,
+      //console.log('this.id: ', this._id),
+        axios.get('http://localhost:4000/api/user/' + this._id)
+        .then(response => {
+          this.userData = response.data
+          //this.maxlengt = response.data.length,
+          console.log('this.userData: ',this.userData)
+          })
+         .catch(error => alert('Eroare: ',error))
+        // return this.items,
+        //console.log("this.userData:", this.userData)
     }
   }
-    // created: function () {
-    //   console.log('3: ',this.userData)
-    //   //console.log('4: ',this.userData))
-    //  return JSON.parse(this.userData)
-    // }
 }
 </script>
 

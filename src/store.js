@@ -25,7 +25,14 @@ export default new Vuex.Store({
       logout(state) {
         state.status = ''
         state.token = ''
+        state.user = ''
       },
+      userState (state, { user }) {
+        state.user.id = user.id,
+        state.user.nr = user.nr,
+        state.user.username = user.username,
+        state.user.email = user.email
+      }
     },
     actions: {
       login({ commit }, user) {
@@ -34,7 +41,6 @@ export default new Vuex.Store({
           axios({ url: 'http://localhost:4000/login', data: user, method: 'POST' })
             .then(resp => {
               const token = resp.data.token
-              
               const user = resp.data.user
               //user.length = 4
               //console.log(user)
@@ -55,6 +61,20 @@ export default new Vuex.Store({
             })
         })
       },
+      // async userState ({ commit }) {
+      //   const response = await axios.get('/user')
+      //   commit('userState', {
+      //     user: response.data,
+      //     meta: {
+      //       analytics: [
+      //         ['set', 'userId', response.data.id],
+      //         ['set', 'nr', response.data.id],
+      //         ['set', 'email', response.data.id],
+      //         ['set', 'username', response.data.id]
+      //       ]
+      //     }
+      //   })
+      // },
       register({ commit }, user) {
         return new Promise((resolve, reject) => {
           commit('auth_request'),
@@ -92,5 +112,7 @@ export default new Vuex.Store({
     getters: {
       isLoggedIn: state => !!state.token,
       authStatus: state => state.status,
-    } 
+      userState: state => state.user
+      // userState: state => state.user
+    }
   })
