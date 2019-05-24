@@ -5,8 +5,7 @@
       <p> State: {{ JSON.parse(this.$store.state.user).username }}  </p>
     </div> -->
 
-
-    <input type='button' @click='getData()' value='Arata datele'>
+    <input type='button' @click='hideData()' value='Ascunde datele'>
     <div>
     <p>Nr: {{ userData.nr }} </p>
     <p>Utilizator: {{ userData.username }} </p>
