@@ -50,6 +50,10 @@ app.get('/api/users', verifyToken, userRoutes)
 //app.get('/api/users/username',  userRoutes)
 app.get('/api/user/:id', verifyToken, userRoutes)
 app.post('/api/user/:id', verifyToken,  userRoutes)
+
+app.get('/api/token/:token', verifyToken, userRoutes)
+app.post('/api/token/:token', verifyToken, userRoutes)
+
 app.get('/api/users/:nr', verifyToken, userRoutes)
 app.get('/api/users/delete/:nr', verifyToken, userRoutes)
 //editusers and update

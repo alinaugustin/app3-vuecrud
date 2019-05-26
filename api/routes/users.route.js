@@ -26,9 +26,8 @@ userRoutes.route('/login').post(function(req, res) {
     // if user is found and password is valid
     // create a token
     var token = jwt.sign({ id: data._id }, configbcr.secret, {
-      expiresIn: 86400 // expires in 24 hours
+      expiresIn: 43200 // expires in 12 hours
     })
-    
     // return the information including token as JSON
     //console.log('dataLogin:',data)
     res.status(200).send({ auth: true, token: token, user: data })
@@ -112,7 +111,7 @@ userRoutes.route('/register', verifyToken).post(function(req, res) {
   userRoutes.route('/api/edit/:username', verifyToken).get(function (req, res) {
     var asa = req.params.username
     //console.log('id = req.params.id: ', asa)
-    User.find( {"username" : {$regex : asa}}, function (err, users){
+    User.findOne( {"username" : {$regex : asa}}, function (err, users){
       if(err){
         //console.log(err)
         // alert("There was a problem finding the user.")
@@ -164,16 +163,50 @@ userRoutes.route('/register', verifyToken).post(function(req, res) {
   })
 
   userRoutes.route('/api/user/:id').get(function (req, res) {
-    console.log('req.params.id:', req.params.id)
+    //console.log('req.params.id:', req.params.id)
     let id = req.params.id
-    console.log('req.params.id:', req.params.id)
-    User.findById({_id: id}, function (error, response) {
+    //console.log('req.params.id:', req.params.id)
+    //testStart
+    //testStop
+    jwt.verify(id, configbcr.secret, function(error, decoded) {
       if(error){
         console.log(error)
         return res.status(500).send(error)
         //alert("There was a problem finding the user.")
       }
-    return res.status(200).send(response)
+      User.findById({_id: decoded.id}, function (error, response) {
+        if(error){
+          console.log(error)
+          return res.status(500).send(error)
+          //alert("There was a problem finding the user.")
+        }
+      return res.status(200).send(response)
+    })
+  })
+})
+
+  userRoutes.route('/api/token/:token').get(function (req, res) {
+    //console.log('req.params.token:', req.params.token)
+    //let token = req.params.token.split('.')[1]
+    let token = req.params.token
+    //console.log('req.params.token:', token)
+    //testStart
+    jwt.verify(token, configbcr.secret, function(error, decoded) {
+      if(error){
+        console.log(error)
+        return res.status(500).send(error)
+        //alert("There was a problem finding the user.")
+      }
+      console.log(decoded.id) // bar
+      //return res.status(200).send(decoded.id)
+      User.findById({_id: decoded.id}, function (error, response) {
+        if(error){
+          console.log(error)
+          return res.status(500).send(error)
+          //alert("There was a problem finding the user.")
+        }
+      return res.status(200).send(response)
+      })
     })
   })
 

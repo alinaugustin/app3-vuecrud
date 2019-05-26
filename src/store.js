@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
@@ -25,7 +26,7 @@ export default new Vuex.Store({
       logout(state) {
         state.status = ''
         state.token = ''
-        state.user = ''
+        //state.user = ''
       },
       userState (state, { user }) {
         state.user.id = user.id,
@@ -41,22 +42,23 @@ export default new Vuex.Store({
           axios({ url: 'http://localhost:4000/login', data: user, method: 'POST' })
             .then(resp => {
               const token = resp.data.token
-              const user = resp.data.user
+              //const objuser = JSON.stringify(resp.data.user._id)
+              //const user = objuser.slice(0,34)
               //user.length = 4
-              //console.log(user)
+              //console.log('user: ',user)
               localStorage.setItem('token', token)
               //user.remove('password')
-              localStorage.setItem('user', JSON.stringify(user))
+              //localStorage.setItem('user', user)
               // Add the following line:
               axios.defaults.headers.common['Authorization'] = token
-              commit('auth_success', token, user)
+              commit('auth_success', token)
               resolve(resp)
               //return user
             })
             .catch(err => {
               commit('auth_error')
               localStorage.removeItem('token')
-              localStorage.setItem('user', user)
+              //localStorage.removeItem('user')
               reject(err)
             })
         })
@@ -84,7 +86,7 @@ export default new Vuex.Store({
               const user = resp.data.user
               // console.log('user:',user)
               localStorage.setItem('token', token)
-              localStorage.setItem('user', user)
+              //localStorage.setItem('user', user)
               // Add the following line:
               axios.defaults.headers.common['Authorization'] = token
               commit('auth_success', token, user)
@@ -93,7 +95,7 @@ export default new Vuex.Store({
             .catch(err => {
               commit('auth_error', err)
               localStorage.removeItem('token')
-              localStorage.removeItem('user')
+              //localStorage.removeItem('user')
               reject(err)
             })
         })
@@ -102,7 +104,7 @@ export default new Vuex.Store({
         return new Promise((resolve, reject) => {
           commit('logout')
           localStorage.removeItem('token')
-          localStorage.removeItem('user')
+          //localStorage.removeItem('user')
           delete axios.defaults.headers.common['Authorization']
           resolve()
           reject()
@@ -112,7 +114,7 @@ export default new Vuex.Store({
     getters: {
       isLoggedIn: state => !!state.token,
       authStatus: state => state.status,
-      userState: state => state.user
+      //userState: state => state.user
       // userState: state => state.user
     }
   })

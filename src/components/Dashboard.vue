@@ -5,7 +5,8 @@
       <p> State: {{ JSON.parse(this.$store.state.user).username }}  </p>
     </div> -->
 
-    <input type='button' @click='hideData()' value='Ascunde datele'>
+    <input type='button' @click='hideData()' value='Verifica'>
+    {{ (msg.username == userData.username) ? 'OK!' : 'NOT ok' }}
     <div>
     <p>Nr: {{ userData.nr }} </p>
     <p>Utilizator: {{ userData.username }} </p>
@@ -48,7 +49,8 @@ export default {
       loading: false,
       user: [],
       username: null,
-      id: 0
+      id: 0,
+      token: null
     }
   },
   created () {
@@ -57,22 +59,32 @@ export default {
   methods: {
     getData: function () {
       axios.defaults.headers.common['Authorization'] = localStorage.getItem('token'),
-      this.user = localStorage.getItem('user'),
-      //console.log('this.user: ',this.user)
-      this._id = JSON.parse(this.user)._id,
-      //console.log('this.id: ', this._id),
+      this.user = localStorage.getItem('token'),
+      //this.token = localStorage.getItem('token'),
+      //this._id = JSON.parse(this.user)._id,
+      this._id = this.user,
+        //axios.get('http://localhost:4000/api/user/' + this._id)
         axios.get('http://localhost:4000/api/user/' + this._id)
         .then(response => {
           this.userData = response.data
-          //this.maxlengt = response.data.length,
           console.log('this.userData: ',this.userData)
           })
          .catch(error => alert('Eroare: ',error))
-        // return this.items,
-        //console.log("this.userData:", this.userData)
+    },
+  hideData: function () {
+      axios.defaults.headers.common['Authorization'] = localStorage.getItem('token'),
+      //this.user = localStorage.getItem('user'),
+      this.token = localStorage.getItem('token')
+      //console.log('this.token: ',this.token)
+        axios.get('http://localhost:4000/api/token/' + this.token)
+        .then(response => {
+          this.msg = response.data
+          //console.log('this.userData: ',this.userData)
+          })
+         .catch(error => alert('Eroare: ',error))
+    }
     }
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

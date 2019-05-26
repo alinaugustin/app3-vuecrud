@@ -53,8 +53,8 @@
               //.dispatch('auth_error', errors)
               .dispatch("login", { email, password })
               .then(() => this.$router.push("/dashboard"))
-              .catch(errors => { alert(" Utilizatorul nu exista sau parola nu e corecta! Eroare: " + this.$store.errors)})
-                        }
+              .catch(errors => { alert(" Err: " + errors + ". Eroare: " + this.$store.errors)})
+            }
         }
       }
       </script>

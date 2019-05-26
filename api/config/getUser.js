@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 var jwt = require('jsonwebtoken') // used to create, sign, and verify tokens
 var config = require('./config') // get our config file
+var Users = = require('../models/Users')
 
 function getUser(req, res) {
   // check header or url parameters or post parameters for token
