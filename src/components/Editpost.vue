@@ -3,8 +3,6 @@
 <div class="row">
   <div class="col-md-9 col-md-offset-3">
     <div class="well well-sm">
-    
-    
     <form>
     <div class="form-group">
     <span>Alegerea implicita in aplicatie este: "Da"</span><br><br>
@@ -14,16 +12,13 @@
             <option v-for="option in options" :key='option.text'>  {{ option.text }} </option>
         </select>
         </div>
-    
     <span>Ati ales: {{ selected }}</span>
     </div>
-    
     <div class="form-group">
     <label class="col-md-9 control-label">Argumentati:</label>
     <div class="col-md-9">
     <textarea  type="textarea" placeholder="Treceti argumentele dumneavoastra aici..." v-model="args"></textarea>
     </div>
-   
     <span>Argumentele date: {{ args }}</span>
     <br><br>
     </div>
@@ -32,11 +27,8 @@
     <br>
     <button id="button" class="btn btn-primary" v-on:click.prevent="insertOpt">Save</button>
     <br>
-    </div> 
-
+    </div>
     </form>
-     
-    
 </div>
 </div>
 </div>
@@ -83,7 +75,7 @@ export default {
                 })
               .catch(error => alert('Eroare: ' + error + ' !!'))
     },
-    allRecordShow: function () {
+    allRecordGet: function () {
         axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
         //console.log('token_vue2:',localStorage.getItem('token'))
         //var token = localStorage.getItem('token')
@@ -92,29 +84,22 @@ export default {
           if(response === null) {
             alert("Nu ati introdus nimic!")
           } else {
-          this.args[0] = response.data[0].argum
-          this.options.text = response.data[0].optiuni
-          alert('arg: ' + this.args + ' options: ' + this.options) 
+          console.log(response.data)  
+          this.args = response.data.argum
+          console.log('this.args[0]: ',this.args)
+          this.options.text = response.data.optiuni
+          console.log('this.options.text: ',this.options.text)
+          alert('arg: ' + this.args + ' options: ' + this.options.text) 
           }
           //console.log('length_method of data:',this.maxlocal)
           })
          .catch(error => alert('Eroare: ' + error + ' Nu este nimic in baza!'))
         // return this.items,
         //console.log("items from axios:", this.items)
-        },
-        myFunction: function () {
-          document.getElementById("panel").style.display = "block";
-          }
-  },
-  computed: {
-    dateTime() {
-            var today = new Date()
-            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
-            var dateTime = date + ' ' + time
-            // console.log(dateTime)
-            return dateTime
         }
+  },
+  created: function() {
+    this.allRecordGet()
     }
 }
 </script>

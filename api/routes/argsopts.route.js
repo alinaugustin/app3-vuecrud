@@ -14,19 +14,25 @@ argsRoutes.route('/apiargs/argsopts', verifyToken).get(function(req, res) {
     //console.log(Authorization)
     //console.log('auth-headers:',req.headers.authorization)
     if(verifyToken) {
-      Argsopts.find(function (err, responses){
-        if(err){
-          console.log(err)
-        }
-        else {
-          res.json(responses)
-          console.log(responses)
-        }
-      })
+      let userId = req.userId
+      console.log('userId: ',userId)
+        Users.findById({_id: userId}, function (err, responses){
+          if(err){
+            console.log(err)
+          }
+          console.log('responses user: ',responses)
+          //res.json(responses.email)
+          Argsopts.findOne({email: responses.email}, function (error, respons){
+            if(error){
+              console.log(error)
+            }
+            console.log('responses args: ',respons)
+            return res.status(200).send(respons)
+          })
+        })
     } else {
       console.error('Authorization required!')
     }
-
   })
 
   argsRoutes.route('/apiargs/insertargsopts', verifyToken).post(function(req, res) {

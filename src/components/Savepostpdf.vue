@@ -3,22 +3,18 @@
     <button @click="downloadWithCSS">Download PDF WITH CSS</button>
     <br>
     <br>
-    
     <div ref="content">
     <form>
-    
-    <div class="form-group">  
+    <div class="form-group">
     <span>Alegerea implicita in aplicatie este: "Da"</span><br><br>
     <label>Alegeti Da sau Nu:</label>
         <select v-model="selected">
             <option v-for="option in options" :key='option.text'>  {{ option.text }} </option>
         </select>
     </div>
-    
     <div class="form-group">
     <span>Ati ales: {{ options.text }}</span>
     </div>
-    
     <div class="form-group">
     <label>Argumentati:</label>
     <textarea  type="textarea" rows="15" cols="80" placeholder="argumente" v-model="args"></textarea>
